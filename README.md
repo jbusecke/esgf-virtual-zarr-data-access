@@ -1,6 +1,14 @@
 # esgf-virtual-zarr-data-access
 ESGF working group to enable data access via virtual zarrs.
 
+## Motivation
+We aim to establish streaming access via [zarr](https://zarr.dev) as a officially supported access pattern next to local downloading. https://github.com/ESGF/esgf-roadmap/issues/5 provides more justification.
+
+This effort draws heavily from the experience of the [Pangeo / ESGF Cloud Data Working Group](https://pangeo-data.github.io/pangeo-cmip6-cloud/)
+We aim to do this:
+- Without duplicating most/all of the data
+- Serving this via official ESGF channels (next to netcdf files). 
+
 ## Goals
 
 On the [Tenth Earth System Grid Federation (ESGF) Hybrid Conference](https://drive.google.com/file/d/1A43T3iz_49y5xta4ssBaacyqfiwNMNtO/view) we discussed the option to serve virtualized zarr files (kerchunk reference files for demonstration's sake). We saw an excellent demo by @rhysrevans3 who showed how to serve both the virtual zarr and the individual netcdf files as a [STAC catalog](https://stacspec.org/en). 
