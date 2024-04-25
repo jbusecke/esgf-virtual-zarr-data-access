@@ -13,6 +13,7 @@ Our goal here is to show the feasability of streaming access to CMIP data via ES
 
 
 ### Why not Kerchunk?
-- Virtualizarr:
+- I (@jbusecke) strongly suggest to use [Virtualizarr](https://github.com/TomNicholas/VirtualiZarr) to future proof the development here:
+  - Is currently backwards compatible with kerchunk.
   - Save out native Zarr. This will enable users to use any Zarr client library to read the data (needs V3?)
-  - Reference creation in xarray native ...
+  - Reference creation in xarray native, enables cleaner API.
