@@ -19,3 +19,5 @@ Our goal here is to show the feasability of streaming access to CMIP data via ES
   - Reference creation in xarray native, enables cleaner API.
  
 **[Open Questions](https://github.com/jbusecke/esgf-virtual-zarr-data-access/labels/question)**
+
+**[Upstream Requirements](https://github.com/jbusecke/esgf-virtual-zarr-data-access/labels/upstream)**
