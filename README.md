@@ -17,6 +17,7 @@ On the [Tenth Earth System Grid Federation (ESGF) Hybrid Conference](https://dri
 
 ## Milestones
 - [ ] Demonstrate a proof of concept which shows that we can create virtual zarr stores, which point to data on ESGF servers, that work functionally equivalent to loading a native zarr from cloud storage.
+    - First working [prototype](https://github.com/jbusecke/esgf-virtual-zarr-data-access/blob/main/notebooks/proof-of-concept.ipynb)
 - [ ] Prototype how the generation of reference files is integrated into the future [ESGF publishing](https://github.com/ESGF/esg-publisher)
 
 
