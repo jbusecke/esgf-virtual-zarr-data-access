@@ -1,6 +1,7 @@
 from tqdm.auto import tqdm
 from virtualizarr import open_virtual_dataset
 import xarray as xr
+from dask.diagnostics import ProgressBar
 
 urls = [
     "http://aims3.llnl.gov/thredds/fileServer/css03_data/CMIP6/ScenarioMIP/DKRZ/MPI-ESM1-2-HR/ssp126/r1i1p1f1/Amon/tas/gn/v20190710/tas_Amon_MPI-ESM1-2-HR_ssp126_r1i1p1f1_gn_201501-201912.nc",
@@ -27,3 +28,16 @@ combined_vds = xr.combine_nested(
     combine_attrs="drop_conflicts",
 )
 combined_vds.virtualize.to_kerchunk(json_filename, format="json")
+
+## test load and print the the mean of the output
+print(f"Loading the mean of the virtual dataset from {json_filename=}")
+
+ds = xr.open_dataset(
+    json_filename, 
+    engine='kerchunk',
+    chunks={},
+)
+print(f"Dataset before mean: {ds}")
+with ProgressBar():
+    ds_mean = ds.mean().load()
+print(ds_mean) 

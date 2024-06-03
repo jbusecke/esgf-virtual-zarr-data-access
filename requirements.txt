@@ -3,3 +3,5 @@ kerchunk
 xarray
 requests
 aiohttp
+tqdm
+dask

@@ -13,12 +13,17 @@ We aim to do this:
 
 1. Install the required dependencies via pip
 ```
+mamba create -n esgf-virtual-zarr-data-access python=3.11
+mamba activate esgf-virtual-zarr-data-access
 pip install -r requirements.txt
 ```
 
-2. Modify the urls, and the output json filename in `virtual-zarr-script.py`, and run. 
+2. Modify the urls, and the output json filename in `virtual-zarr-script.py`, and run the script.
+```
+python virtual-zarr-script.py
+``` 
 
-3. Check that the generated JSON file is readable with xarray
+3. Check that the generated JSON file is readable with xarray and average the full dataset (this is also done in the script)
 
 ```python
 import xarray as xr
@@ -28,7 +33,6 @@ ds = xr.open_dataset(
     chunks={},
 )
 ds.mean().load() # test that all chunks can be accessed.
-
 ```
 
 ## Goals
