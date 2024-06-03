@@ -1,0 +1,5 @@
+git+https://github.com/TomAugspurger/VirtualiZarr.git@user/tom/feature/filesystems
+kerchunk
+xarray
+requests
+aiohttp

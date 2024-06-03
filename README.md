@@ -7,7 +7,29 @@ We aim to establish streaming access via [zarr](https://zarr.dev) as a officiall
 This effort draws heavily from the experience of the [Pangeo / ESGF Cloud Data Working Group](https://pangeo-data.github.io/pangeo-cmip6-cloud/)
 We aim to do this:
 - Without duplicating most/all of the data
-- Serving this via official ESGF channels (next to netcdf files). 
+- Serving this via official ESGF channels (next to netcdf files).
+
+## Guide
+
+1. Install the required dependencies via pip
+```
+pip install -r requirements.txt
+```
+
+2. Modify the urls, and the output json filename in `virtual-zarr-script.py`, and run. 
+
+3. Check that the generated JSON file is readable with xarray
+
+```python
+import xarray as xr
+ds = xr.open_dataset(
+    '<your_filename>.json', 
+    engine='kerchunk',
+    chunks={},
+)
+ds.mean().load() # test that all chunks can be accessed.
+
+```
 
 ## Goals
 
