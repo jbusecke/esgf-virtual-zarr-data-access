@@ -16,7 +16,8 @@ json_filename = "combined_full.json"
 vds_list = []
 for url in tqdm(urls):
     vds = open_virtual_dataset(
-        url, indexes={}, reader_options={}
+        url, indexes={}, 
+        # reader_options={}
     )  # reader_options={} is needed for now to circumvent a bug in https://github.com/TomNicholas/VirtualiZarr/pull/126
     vds_list.append(vds)
 
@@ -29,7 +30,7 @@ combined_vds = xr.combine_nested(
 )
 combined_vds.virtualize.to_kerchunk(json_filename, format="json")
 
-## test load and print the the mean of the output
+## load and testthe output
 print(f"Loading the mean of the virtual dataset from {json_filename=}")
 
 ds = xr.open_dataset(
@@ -40,4 +41,9 @@ ds = xr.open_dataset(
 print(f"Dataset before mean: {ds}")
 with ProgressBar():
     ds_mean = ds.mean().load()
-print(ds_mean) 
+print(ds_mean)
+
+print("Checking time decoding")
+
+
+

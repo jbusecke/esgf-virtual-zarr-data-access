@@ -1,7 +1,9 @@
-git+https://github.com/TomAugspurger/VirtualiZarr.git@user/tom/feature/filesystems
+git+https://github.com/jsignell/VirtualiZarr.git@cftime
 kerchunk
 xarray
 requests
 aiohttp
 tqdm
 dask
+cftime
+pytest
