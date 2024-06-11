@@ -60,22 +60,18 @@ def ds_from_json(json_filename, **kwargs):
         **kwargs
     )
 
-def test_load(vds_json):
-    ds = ds_from_json(vds_json)
-    ds_mean = ds.mean().load()
-    assert ds_mean is not None
-
-@pytest.mark.parametrize('use_cftime', [True, False])
-@pytest.mark.parametrize('chunks', [None, {}])
-def test_time(vds_json, ds_combined, chunks, use_cftime):
-    ds = ds_from_json(vds_json, chunks=chunks, use_cftime=use_cftime)
-    print(f"{ds=}")
-    print(f"{ds_combined=}")
+def test_time(vds_json, ds_combined, ):
+    ds = ds_from_json(vds_json, chunks={})
     def clean_time(ds: xr.Dataset) -> xr.DataArray:
         return ds.time.reset_coords(drop=True).load()
     xr.testing.assert_identical(clean_time(ds), clean_time(ds_combined))
-    
 
-
-# def test_assert_equal(ds_from_json, ds_combined):
-#     xr.testing.assert_allclose(ds_from_json, ds_combined)
+@pytest.mark.parametrize('use_cftime', [True, False])
+@pytest.mark.parametrize('chunks', [None, {}])
+def test_equal(vds_json, ds_combined, chunks, use_cftime):
+    ds = ds_from_json(vds_json, chunks=chunks, use_cftime=use_cftime)
+    ds = ds.load()
+    ds_combined = ds_combined.load()
+    print(f"{ds=}")
+    print(f"{ds_combined=}")
+    xr.testing.assert_identical(ds, ds_combined)
