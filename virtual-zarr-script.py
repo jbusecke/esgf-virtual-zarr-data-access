@@ -17,8 +17,10 @@ vds_list = []
 for url in tqdm(urls):
     vds = open_virtual_dataset(
         url, indexes={}, 
-        # reader_options={}
-    )  # reader_options={} is needed for now to circumvent a bug in https://github.com/TomNicholas/VirtualiZarr/pull/126
+        reader_options={}, # needed for now to circumvent a bug in https://github.com/TomNicholas/VirtualiZarr/pull/126
+        cftime_variables=["time"],
+        loadable_variables=["time"],
+    )  
     vds_list.append(vds)
 
 combined_vds = xr.combine_nested(
@@ -42,8 +44,6 @@ print(f"Dataset before mean: {ds}")
 with ProgressBar():
     ds_mean = ds.mean().load()
 print(ds_mean)
-
-print("Checking time decoding")
 
 
 
