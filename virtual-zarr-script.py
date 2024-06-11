@@ -44,5 +44,3 @@ print(f"Dataset before mean: {ds}")
 with ProgressBar():
     ds_mean = ds.mean().load()
 print(ds_mean)
-
-

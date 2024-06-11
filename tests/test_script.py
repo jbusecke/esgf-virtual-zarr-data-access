@@ -61,7 +61,7 @@ def ds_from_json(json_filename, **kwargs):
     )
 
 def test_time(vds_json, ds_combined, ):
-    ds = ds_from_json(vds_json, chunks={})
+    ds = ds_from_json(vds_json, chunks={}, use_cftime=True)
     def clean_time(ds: xr.Dataset) -> xr.DataArray:
         return ds.time.reset_coords(drop=True).load()
     xr.testing.assert_identical(clean_time(ds), clean_time(ds_combined))
