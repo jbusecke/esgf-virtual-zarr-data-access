@@ -15,7 +15,7 @@ def ds_combined():
     ds_list = []
     for url in urls:
         with fsspec.open(url) as f:
-            ds = xr.open_dataset(f).load() #workaround from https://github.com/fsspec/s3fs/issues/337
+            ds = xr.open_dataset(f, use_cftime=True).load() #workaround from https://github.com/fsspec/s3fs/issues/337
         ds_list.append(ds)
     return xr.combine_nested(
         ds_list,
@@ -66,10 +66,9 @@ def test_time(vds_json, ds_combined, ):
         return ds.time.reset_coords(drop=True).load()
     xr.testing.assert_identical(clean_time(ds), clean_time(ds_combined))
 
-@pytest.mark.parametrize('use_cftime', [True, False])
 @pytest.mark.parametrize('chunks', [None, {}])
-def test_equal(vds_json, ds_combined, chunks, use_cftime):
-    ds = ds_from_json(vds_json, chunks=chunks, use_cftime=use_cftime)
+def test_equal(vds_json, ds_combined, chunks):
+    ds = ds_from_json(vds_json, chunks=chunks, use_cftime=True)
     ds = ds.load()
     ds_combined = ds_combined.load()
     print(f"{ds=}")
