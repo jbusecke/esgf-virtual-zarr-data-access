@@ -48,7 +48,7 @@ On the [Tenth Earth System Grid Federation (ESGF) Hybrid Conference](https://dri
 
 ## Examples:
 
-```
+```python
 import xarray as xr
 from dask.diagnostics import ProgressBar
 DSID="CMIP6.CMIP.NCAR.CESM2.historical.r1i1p1f1.Amon.pr.gn.v20190401"
