@@ -46,6 +46,22 @@ On the [Tenth Earth System Grid Federation (ESGF) Hybrid Conference](https://dri
     - First working [prototype](https://github.com/jbusecke/esgf-virtual-zarr-data-access/blob/main/notebooks/proof-of-concept.ipynb)
 - [ ] Prototype how the generation of reference files is integrated into the future [ESGF publishing](https://github.com/ESGF/esg-publisher)
 
+## Examples:
+
+```
+import xarray as xr
+from dask.diagnostics import ProgressBar
+DSID="CMIP6.CMIP.NCAR.CESM2.historical.r1i1p1f1.Amon.pr.gn.v20190401"
+esgf_url = f"http://esgf-data4.llnl.gov/thredds/fileServer/user_pub_work/vzarr/{DSID}.json"
+ds = xr.open_dataset(
+    esgf_url, 
+    engine='kerchunk',
+    chunks={},
+)
+with ProgressBar():
+    a = ds.mean().load()
+```
+
 
 ### Why not Kerchunk?
 - I (@jbusecke) strongly suggest to use [Virtualizarr](https://github.com/TomNicholas/VirtualiZarr) to future proof the development here:
