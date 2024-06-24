@@ -1,4 +1,5 @@
-git+https://github.com/TomAugspurger/VirtualiZarr.git@user/tom/feature/filesystems
+git+https://github.com/TomNicholas/VirtualiZarr.git
+VirtualiZarr
 kerchunk
 xarray
 requests
