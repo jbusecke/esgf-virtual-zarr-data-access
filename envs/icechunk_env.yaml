@@ -1,0 +1,11 @@
+name: icechunk
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - pip
+  - fastparquet
+  - s3fs
+  - pip:
+      - icechunk
+      - git+https://github.com/zarr-developers/VirtualiZarr
