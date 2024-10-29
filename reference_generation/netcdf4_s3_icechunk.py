@@ -68,20 +68,119 @@ combined_vds.virtualize.to_kerchunk(
 ###### WRITE ICECHUNK - THIS REQUIRES envs/icechunk_env.yaml #####
 
 # 1. read existing ref
+import xarray as xr 
+from virtualizarr import open_virtual_dataset
+from icechunk import IcechunkStore, StorageConfig, StoreConfig, VirtualRefConfig, S3Credentials
 
 vds = open_virtual_dataset('netcdf4_s3_icechunk.parquet',filetype = 'kerchunk', indexes={})
+vds = vds.set_coords([v for v in vds.variables if v != vds.attrs['variable_id']])
 
-# create an icechunk store
-from icechunk import IcechunkStore, StorageConfig, StoreConfig, VirtualRefConfig
-import icechunk 
 
-storage_config = icechunk.StorageConfig.filesystem("./netcdf4_s3_icechunk")
-store = icechunk.IcechunkStore.create(storage_config)
 
-# write to icechunk store
+
+storage = StorageConfig.s3_from_config(
+    bucket='leap-m2lines-test',
+    prefix='cmip6_virtualizarr/netcdf4_s3_icechunk',
+    endpoint_url='https://nyu1.osn.mghpcc.org',
+    region='dummy',
+    allow_http=True,
+    credentials=S3Credentials(
+        access_key_id="0DJ5POIMB9T498Y4QXP6",
+        secret_access_key="p47QB7sSqbykTi3pZVr7I8SOxsJ1VPCDahA6ALYT")
+    )
+
+
+store = IcechunkStore.create(
+    storage=storage, 
+    config=StoreConfig(
+        virtual_ref_config=VirtualRefConfig.s3_anonymous(region='us-east-2'),
+    )
+)
+
+
+
+
+
+
 vds.virtualize.to_icechunk(store)
-store.commit("init")
+
+
+# Virtualizarr issue!
+# issue -virtualizarr seems to demote coords
+# vds = vds.set_coords([v for v in vds.variables if v != vds.attrs['variable_id']])
+"""
+[vds]
+<xarray.Dataset> Size: 54GB
+Dimensions:             (time: 1980, j: 291, i: 360, vertices: 4, bnds: 2,
+                         lev: 45)
+Coordinates:
+    vertices_longitude  (time, j, i, vertices) float64 7GB ManifestArray<shap...
+    time_bnds           (time, bnds) float64 32kB ManifestArray<shape=(1980, ...
+    vertices_latitude   (time, j, i, vertices) float64 7GB ManifestArray<shap...
+    longitude           (time, j, i) float64 2GB ManifestArray<shape=(1980, 2...
+    latitude            (time, j, i) float64 2GB ManifestArray<shape=(1980, 2...
+    lev_bnds            (time, lev, bnds) float64 1MB ManifestArray<shape=(19...
+    j                   (j) int32 1kB ManifestArray<shape=(291,), dtype=int32...
+    lev                 (lev) float64 360B ManifestArray<shape=(45,), dtype=f...
+    time                (time) float64 16kB ManifestArray<shape=(1980,), dtyp...
+    i                   (i) int32 1kB ManifestArray<shape=(360,), dtype=int32...
+Dimensions without coordinates: vertices, bnds
+Data variables:
+    uo                  (time, lev, j, i) float32 37GB ManifestArray<shape=(1...
+
+    
+[RT icechunk ds]
+    <xarray.Dataset> Size: 54GB
+Dimensions:             (time: 1980, j: 291, i: 360, vertices: 4, lev: 45,
+                         bnds: 2)
+Coordinates:
+  * lev                 (lev) float64 360B 3.047 9.454 ... 5.375e+03 5.625e+03
+  * j                   (j) int32 1kB 0 1 2 3 4 5 6 ... 285 286 287 288 289 290
+  * time                (time) float64 16kB 15.5 45.0 ... 6.018e+04 6.021e+04
+  * i                   (i) int32 1kB 0 1 2 3 4 5 6 ... 354 355 356 357 358 359
+Dimensions without coordinates: vertices, bnds
+Data variables:
+    vertices_latitude   (time, j, i, vertices) float64 7GB ...
+    vertices_longitude  (time, j, i, vertices) float64 7GB ...
+    longitude           (time, j, i) float64 2GB ...
+    time_bnds           (time, bnds) float64 32kB ...
+    latitude            (time, j, i) float64 2GB ...
+    lev_bnds            (time, lev, bnds) float64 1MB ...
+    uo                  (time, lev, j, i) float32 37GB ...
+    """
+
+store.commit('init')
+ds = xr.open_zarr(store, consolidated=False)
 
 
 
+#############################
 
+import xarray as xr 
+from virtualizarr import open_virtual_dataset
+from icechunk import IcechunkStore, StorageConfig, StoreConfig, VirtualRefConfig, S3Credentials
+
+
+
+# storage = StorageConfig.s3_anonymous(
+#     bucket='leap-m2lines-test',
+#     prefix='cmip6_virtualizarr/netcdf4_s3_icechunk',
+#     endpoint_url="https://nyu1.osn.mghpcc.org",
+#     allow_http=True, # what exactly does this do? It does not work without this line!
+#     region='some-bonkers-region',
+# )
+
+storage = StorageConfig.s3_anonymous(
+    bucket='leap-m2lines-test',
+    prefix='cmip6_virtualizarr/netcdf4_s3_icechunk',
+    endpoint_url="https://nyu1.osn.mghpcc.org",
+    allow_http=True, # what exactly does this do? It does not work without this line!
+    region='some-bonkers-region',
+)
+config=StoreConfig(
+        virtual_ref_config=VirtualRefConfig.s3_anonymous(region='us-east-2'),
+)
+
+store = IcechunkStore.open_existing(storage, config=config,mode='r')
+
+ds = xr.open_zarr(store, decode_cf=False,consolidated=False)
