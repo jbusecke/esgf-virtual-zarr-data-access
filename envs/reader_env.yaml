@@ -1,0 +1,11 @@
+name: reader
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - h5py
+  - xarray
+  - virtualizarr
+  - kerchunk 
+  - fastparquet
+  - s3fs
