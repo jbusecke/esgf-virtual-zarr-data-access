@@ -16,8 +16,8 @@ json_filename = "combined_full.json"
 vds_list = []
 for url in tqdm(urls):
     vds = open_virtual_dataset(
-        url, indexes={}, reader_options={}
-    )  # reader_options={} is needed for now to circumvent a bug in https://github.com/TomNicholas/VirtualiZarr/pull/126
+        url, indexes={},
+    )
     vds_list.append(vds)
 
 combined_vds = xr.combine_nested(
