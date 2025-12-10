@@ -1,0 +1,24 @@
+[project]
+name = "esgf-virtual-zarr-data-access"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "bokeh",
+    "dask",
+    "distributed",
+    "h5netcdf",
+    "h5py",
+    "icechunk",
+    "ipykernel",
+    "netcdf4",
+    "pre-commit",
+    "virtualizarr @ git+https://github.com/zarr-developers/VirtualiZarr",
+    "fastparquet",
+    "s3fs",
+    "xarray",
+    "kerchunk",
+    "tqdm>=4.67.1",
+    "matplotlib>=3.10.7",
+]

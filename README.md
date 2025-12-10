@@ -11,16 +11,14 @@ We aim to do this:
 
 ## Guide
 
-1. Install the required dependencies via pip
+1. Install the required dependencies using `uv`:
 ```
-mamba create -n esgf-virtual-zarr-data-access python=3.11
-mamba activate esgf-virtual-zarr-data-access
-pip install -r requirements.txt
+uv sync
 ```
 
 2. Modify the urls, and the output json filename in `virtual-zarr-script.py`, and run the script.
 ```
-python virtual-zarr-script.py
+uv run python virtual-zarr-script.py #does not currently work!
 ``` 
 
 3. Check that the generated JSON file is readable with xarray and average the full dataset (this is also done in the script)
@@ -34,6 +32,23 @@ ds = xr.open_dataset(
 )
 ds.mean().load() # test that all chunks can be accessed.
 ```
+
+## Usage with Jupyter
+
+To use this environment in Jupyter notebooks, you need to create a new kernel.
+
+1. Create a new kernel:
+```
+uv run python -m ipykernel install --user --name=esgf-virtual-zarr
+```
+
+2. Launch Jupyter Lab or Notebook and select the `esgf-virtual-zarr` kernel.
+
+3. To remove the kernel when you are done:
+```bash
+jupyter kernelspec uninstall esgf-virtual-zarr
+```
+
 
 ## Goals
 
