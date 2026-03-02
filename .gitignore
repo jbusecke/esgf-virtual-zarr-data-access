@@ -71,6 +71,10 @@ instance/
 # Sphinx documentation
 docs/_build/
 
+# MyST-MD documentation build
+_build/
+.myst_cache/
+
 # PyBuilder
 .pybuilder/
 target/
