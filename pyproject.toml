@@ -22,3 +22,8 @@ dependencies = [
     "tqdm>=4.67.1",
     "matplotlib>=3.10.7",
 ]
+
+[dependency-groups]
+docs = [
+    "mystmd",
+]
