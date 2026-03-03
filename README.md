@@ -1,6 +1,6 @@
 # esgf-virtual-zarr-data-access
 
-ESGF working group to enable streaming access to CMIP6 climate data via virtual Zarr stores.
+This repository serves as central point for public discussions, examples, and code related to creating virtual zarr stores for CMIP7 data.
 
 **[Documentation](https://jbusecke.github.io/esgf-virtual-zarr-data-access/)**
 
